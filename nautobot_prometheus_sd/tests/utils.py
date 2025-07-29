@@ -31,7 +31,7 @@ def build_status():
     return Status.objects.get_or_create(
         name="Active",
         slug="active",
-    )[0]
+    )
 
 def build_custom_fields():
     """Build custom field definition with different kinds of custom values"""
