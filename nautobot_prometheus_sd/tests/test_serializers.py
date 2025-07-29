@@ -20,7 +20,7 @@ class PrometheusVirtualMachineSerializerTests(TestCase):
             {"__meta_netbox_model": "VirtualMachine"}, data["labels"]
         )
         self.assertDictContainsSubset(
-            {"__meta_netbox_status": "active"}, data["labels"]
+            {"__meta_netbox_status": "Active"}, data["labels"]
         )
         self.assertDictContainsSubset({"__meta_netbox_cluster": "DC1"}, data["labels"])
         self.assertDictContainsSubset(
@@ -40,7 +40,7 @@ class PrometheusVirtualMachineSerializerTests(TestCase):
             {"__meta_netbox_model": "VirtualMachine"}, data["labels"]
         )
         self.assertDictContainsSubset(
-            {"__meta_netbox_status": "active"}, data["labels"]
+            {"__meta_netbox_status": "Active"}, data["labels"]
         )
         self.assertDictContainsSubset(
             {"__meta_netbox_tenant": "Acme Corp."}, data["labels"]
@@ -164,7 +164,7 @@ class PrometheusIPAddressSerializerTests(TestCase):
 
         self.assertEqual(data["targets"], ["10.10.10.10"])
         self.assertDictContainsSubset(
-            {"__meta_netbox_status": "active"}, data["labels"]
+            {"__meta_netbox_status": "Active"}, data["labels"]
         )
         self.assertDictContainsSubset(
             {"__meta_netbox_model": "IPAddress"}, data["labels"]
@@ -183,7 +183,7 @@ class PrometheusIPAddressSerializerTests(TestCase):
             "IP with DNS name should use DNS name as target",
         )
         self.assertDictContainsSubset(
-            {"__meta_netbox_status": "active"}, data["labels"]
+            {"__meta_netbox_status": "Active"}, data["labels"]
         )
         self.assertDictContainsSubset(
             {"__meta_netbox_model": "IPAddress"}, data["labels"]
