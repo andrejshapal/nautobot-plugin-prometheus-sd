@@ -42,7 +42,7 @@ class VirtualMachineViewSet(
         "primary_ip4",
         "primary_ip6",
         "tags",
-        # "services",
+        "services",
         # "contacts",
 
     )
