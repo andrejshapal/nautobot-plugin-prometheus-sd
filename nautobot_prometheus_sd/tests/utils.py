@@ -29,10 +29,8 @@ def build_tenant():
 def build_status():
     """Build a status object for testing purposes."""
     return Status.objects.get_or_create(
-        name="active",
+        name="Active",
         slug="active",
-        color="00FF00",
-        description="This is an active status.",
     )[0]
 
 def build_custom_fields():
