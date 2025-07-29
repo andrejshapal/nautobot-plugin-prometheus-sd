@@ -4,6 +4,7 @@ from nautobot.dcim.models import Device, DeviceRole, Platform
 
 from nautobot.ipam.models import IPAddress
 from nautobot.tenancy.models import Tenant, TenantGroup
+from nautobot.extras.models import Status
 
 from nautobot.virtualization.models import (
     Cluster,
@@ -25,6 +26,14 @@ def build_cluster():
 def build_tenant():
     return Tenant.objects.get_or_create(name="Acme Corp.", slug="acme")[0]
 
+def build_status():
+    """Build a status object for testing purposes."""
+    return Status.objects.get_or_create(
+        name="active",
+        slug="active",
+        color="00FF00",
+        description="This is an active status.",
+    )[0]
 
 def build_custom_fields():
     """Build custom field definition with different kinds of custom values"""
@@ -110,6 +119,7 @@ def build_minimal_ip(address):
 
 def build_full_ip(address, dns_name=""):
     ip = build_minimal_ip(address=address)
+    ip.status = build_status()
     ip._custom_field_data = build_custom_fields() # type: ignore
     ip.tenant = Tenant.objects.get_or_create( # type: ignore
         name="Starfleet",
