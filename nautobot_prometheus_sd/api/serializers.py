@@ -66,7 +66,7 @@ class PrometheusVirtualMachineSerializer(serializers.ModelSerializer):
 
     def get_labels(self, obj):
         labels = LabelDict(
-            {"status": obj.status, "model": obj.__class__.__name__, "name": obj.name}
+            {"model": obj.__class__.__name__, "name": obj.name}
         )
 
         utils.extract_primary_ip(obj, labels)
