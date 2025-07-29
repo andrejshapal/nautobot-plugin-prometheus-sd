@@ -1,7 +1,6 @@
 from nautobot.dcim.models.devices import DeviceType, Manufacturer
-from nautobot.dcim.models.locations import Location
-from nautobot.dcim.models import Device, Platform
-from nautobot.extras.models import Role
+from nautobot.dcim.models.sites import Site
+from nautobot.dcim.models import Device, DeviceRole, Platform
 
 from nautobot.ipam.models import IPAddress
 from nautobot.tenancy.models import Tenant, TenantGroup
@@ -60,14 +59,14 @@ def build_minimal_vm(name):
 
 def build_vm_full(name):
     vm = build_minimal_vm(name=name)
-    vm.tenant = build_tenant()
-    vm.custom_field_data = build_custom_fields()
-    vm.role = Role.objects.get_or_create(name="VM", slug="vm", vm_role=True)[0]
-    vm.platform = Platform.objects.get_or_create(
+    vm.tenant = build_tenant() # type: ignore
+    vm.custom_field_data = build_custom_fields() # type: ignore
+    vm.role = DeviceRole.objects.get_or_create(name="VM", slug="vm", vm_role=True)[0] # type: ignore
+    vm.platform = Platform.objects.get_or_create( # type: ignore
         name="Ubuntu 20.04", slug="ubuntu-20.04"
     )[0]
-    vm.primary_ip4 = IPAddress.objects.get_or_create(address="192.168.0.1/24")[0]
-    vm.primary_ip6 = IPAddress.objects.get_or_create(address="2001:db8:1701::2/64")[0]
+    vm.primary_ip4 = IPAddress.objects.get_or_create(address="192.168.0.1/24")[0] # type: ignore
+    vm.primary_ip6 = IPAddress.objects.get_or_create(address="2001:db8:1701::2/64")[0] # type: ignore
 
     vm.tags.add("Tag1")
     vm.tags.add("Tag 2")
@@ -77,7 +76,7 @@ def build_vm_full(name):
 def build_minimal_device(name):
     return Device.objects.get_or_create(
         name=name,
-        device_role=Role.objects.get_or_create(name="Firewall", slug="firewall")[
+        device_role=DeviceRole.objects.get_or_create(name="Firewall", slug="firewall")[
             0
         ],
         device_type=DeviceType.objects.get_or_create(
@@ -93,11 +92,11 @@ def build_minimal_device(name):
 
 def build_device_full(name):
     device = build_minimal_device(name)
-    device.tenant = build_tenant()
-    device.custom_field_data = build_custom_fields()
-    device.platform = Platform.objects.get_or_create(name="Junos", slug="junos")[0]
-    device.primary_ip4 = IPAddress.objects.get_or_create(address="192.168.0.1/24")[0]
-    device.primary_ip6 = IPAddress.objects.get_or_create(address="2001:db8:1701::2/64")[
+    device.tenant = build_tenant() # type: ignore
+    device.custom_field_data = build_custom_fields() # type: ignore
+    device.platform = Platform.objects.get_or_create(name="Junos", slug="junos")[0] # type: ignore
+    device.primary_ip4 = IPAddress.objects.get_or_create(address="192.168.0.1/24")[0] # type: ignore
+    device.primary_ip6 = IPAddress.objects.get_or_create(address="2001:db8:1701::2/64")[ # type: ignore
         0
     ]
     device.tags.add("Tag1")
@@ -111,8 +110,8 @@ def build_minimal_ip(address):
 
 def build_full_ip(address, dns_name=""):
     ip = build_minimal_ip(address=address)
-    ip.custom_field_data = build_custom_fields()
-    ip.tenant = Tenant.objects.get_or_create(
+    ip.custom_field_data = build_custom_fields() # type: ignore
+    ip.tenant = Tenant.objects.get_or_create( # type: ignore
         name="Starfleet",
         slug="starfleet",
         group=TenantGroup.objects.get_or_create(name="Federation", slug="federation")[

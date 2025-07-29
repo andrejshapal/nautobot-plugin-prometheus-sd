@@ -41,9 +41,9 @@ class VirtualMachineViewSet(
         "platform",
         "primary_ip4",
         "primary_ip6",
-        "tags",
-        "services",
-        "contacts",
+        # "tags",
+        # "services",
+        # "contacts",
 
     )
     filterset_class = VirtualMachineFilterSet
