@@ -63,12 +63,13 @@ def build_custom_fields():
     }
 
 def build_minimal_vm(name):
-    return VirtualMachine.objects.get_or_create(name=name, cluster=build_cluster())[0]
+    return VirtualMachine.objects.get_or_create(name=name, cluster=build_cluster(), status=build_status())[0]
 
 
 def build_vm_full(name):
     vm = build_minimal_vm(name=name)
     vm.tenant = build_tenant() # type: ignore
+    vm.status = build_status()
     vm._custom_field_data = build_custom_fields() # type: ignore
     vm.role = DeviceRole.objects.get_or_create(name="VM", slug="vm", vm_role=True)[0] # type: ignore
     vm.platform = Platform.objects.get_or_create( # type: ignore
@@ -85,6 +86,7 @@ def build_vm_full(name):
 def build_minimal_device(name):
     return Device.objects.get_or_create(
         name=name,
+        status=build_status(),
         device_role=DeviceRole.objects.get_or_create(name="Firewall", slug="firewall")[
             0
         ],
@@ -102,6 +104,7 @@ def build_minimal_device(name):
 def build_device_full(name):
     device = build_minimal_device(name)
     device.tenant = build_tenant() # type: ignore
+    device.status=build_status()
     device._custom_field_data = build_custom_fields() # type: ignore
     device.platform = Platform.objects.get_or_create(name="Junos", slug="junos")[0] # type: ignore
     device.primary_ip4 = IPAddress.objects.get_or_create(address="192.168.0.1/24")[0] # type: ignore
@@ -114,7 +117,7 @@ def build_device_full(name):
 
 
 def build_minimal_ip(address):
-    return IPAddress.objects.get_or_create(address=address)[0]
+    return IPAddress.objects.get_or_create(address=address, status=build_status())[0]
 
 
 def build_full_ip(address, dns_name=""):
