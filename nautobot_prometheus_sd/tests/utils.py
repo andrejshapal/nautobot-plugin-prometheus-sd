@@ -93,7 +93,7 @@ def build_minimal_device(name):
 def build_device_full(name):
     device = build_minimal_device(name)
     device.tenant = build_tenant() # type: ignore
-    device.custom_field_data = build_custom_fields() # type: ignore
+    device._custom_field_data = build_custom_fields() # type: ignore
     device.platform = Platform.objects.get_or_create(name="Junos", slug="junos")[0] # type: ignore
     device.primary_ip4 = IPAddress.objects.get_or_create(address="192.168.0.1/24")[0] # type: ignore
     device.primary_ip6 = IPAddress.objects.get_or_create(address="2001:db8:1701::2/64")[ # type: ignore
