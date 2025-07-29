@@ -60,7 +60,7 @@ def build_minimal_vm(name):
 def build_vm_full(name):
     vm = build_minimal_vm(name=name)
     vm.tenant = build_tenant() # type: ignore
-    vm.custom_field_data = build_custom_fields() # type: ignore
+    vm._custom_field_data = build_custom_fields() # type: ignore
     vm.role = DeviceRole.objects.get_or_create(name="VM", slug="vm", vm_role=True)[0] # type: ignore
     vm.platform = Platform.objects.get_or_create( # type: ignore
         name="Ubuntu 20.04", slug="ubuntu-20.04"
@@ -110,7 +110,7 @@ def build_minimal_ip(address):
 
 def build_full_ip(address, dns_name=""):
     ip = build_minimal_ip(address=address)
-    ip.custom_field_data = build_custom_fields() # type: ignore
+    ip._custom_field_data = build_custom_fields() # type: ignore
     ip.tenant = Tenant.objects.get_or_create( # type: ignore
         name="Starfleet",
         slug="starfleet",
