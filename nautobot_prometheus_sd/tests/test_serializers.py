@@ -1,4 +1,5 @@
 """Tests for the Prometheus SD serializers."""
+
 from django.test import TestCase
 
 from ..api.serializers import (
@@ -11,6 +12,7 @@ from . import utils
 
 class PrometheusVirtualMachineSerializerTests(TestCase):
     """Tests for the PrometheusVirtualMachineSerializer."""
+
     def test_vm_minimal_to_target(self):
         data = PrometheusVirtualMachineSerializer(instance=utils.build_minimal_vm("vm-01.example.com")).data
 
@@ -56,6 +58,7 @@ class PrometheusVirtualMachineSerializerTests(TestCase):
 
 class PrometheusDeviceSerializerTests(TestCase):
     """Tests for the PrometheusDeviceSerializer."""
+
     def test_device_minimal_to_target(self):
         data = PrometheusDeviceSerializer(instance=utils.build_minimal_device("firewall-01")).data
 
@@ -85,6 +88,7 @@ class PrometheusDeviceSerializerTests(TestCase):
 
 class PrometheusIPAddressSerializerTests(TestCase):
     """Tests for the PrometheusIPAddressSerializer."""
+
     def test_ip_minimal_to_target(self):
         data = PrometheusIPAddressSerializer(instance=utils.build_minimal_ip("10.10.10.10/24")).data
 

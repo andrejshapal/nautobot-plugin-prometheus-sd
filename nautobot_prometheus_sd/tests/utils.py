@@ -1,4 +1,5 @@
 """Utility functions for Nautobot Prometheus SD tests."""
+
 from nautobot.dcim.models import Device, DeviceRole, Platform
 from nautobot.dcim.models.devices import DeviceType, Manufacturer
 from nautobot.dcim.models.sites import Site
@@ -56,7 +57,7 @@ def build_minimal_vm(name):
 
 def build_vm_full(name):
     """Build a full virtual machine object for testing purposes."""
-    vm = build_minimal_vm(name=name) # pylint: disable=invalid-name
+    vm = build_minimal_vm(name=name)  # pylint: disable=invalid-name
     vm.tenant = build_tenant()  # type: ignore
     vm.status = build_status()
     vm._custom_field_data = build_custom_fields()  # type: ignore # pylint: disable=protected-access
@@ -110,7 +111,7 @@ def build_minimal_ip(address):
 
 def build_full_ip(address, dns_name=""):
     """Build a full IP address object for testing purposes."""
-    ip = build_minimal_ip(address=address) # pylint: disable=invalid-name
+    ip = build_minimal_ip(address=address)  # pylint: disable=invalid-name
     ip.status = build_status()
     ip._custom_field_data = build_custom_fields()  # type: ignore # pylint: disable=protected-access
     ip.tenant = Tenant.objects.get_or_create(  # type: ignore
