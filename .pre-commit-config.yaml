@@ -2,9 +2,12 @@ repos:
   - repo: local
     hooks:
       - id: format
-        name: poetry run invoke ruff --action format --fix
+        name: Format files
         entry: poetry run invoke ruff --action format --fix
         language: system
-        # Optionally, restrict file types (e.g. Python only):
-        # files: \.py$
-        pass_filenames: false  # So it works on all files by default, not by filenames from pre-commit
+        pass_filenames: false
+      - id: lint
+        name: Lint files
+        entry: poetry run invoke ruff --action lint --fix
+        language: system
+        pass_filenames: false
