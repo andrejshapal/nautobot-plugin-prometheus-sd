@@ -17,6 +17,7 @@ include = [
 python = ">=3.9,<3.12"
 # Used for local development
 nautobot = "^1.6.0"
+pre-commit = "^4.2.0"
 
 [tool.poetry.group.dev.dependencies]
 coverage = "*"
