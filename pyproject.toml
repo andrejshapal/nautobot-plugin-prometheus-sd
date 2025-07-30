@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "nautobot-plugin-prometheus-sd"
 version = "0.0.1" # placeholder
-description = "A Netbox plugin to provide Netbox entires to Prometheus HTTP service discovery"
+description = "A Nautobot plugin to provide Netbox entires to Prometheus HTTP service discovery"
 authors = ["Felix Peters <felix.peters@breuninger.de>"]
 license = "MIT"
 readme = "README.md"
@@ -11,7 +11,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.11"
 
 [tool.poetry.dev-dependencies]
 black = "^22.10"

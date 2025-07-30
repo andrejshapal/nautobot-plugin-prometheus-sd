@@ -1,45 +1,43 @@
-# fork to try this plugin nautobot compatible
+I have found the following plugin: https://pypi.org/project/nautobot-plugin-prometheus-sd/ which is fork of https://github.com/FlxPeters/netbox-plugin-prometheus-sd, but without available source code, so copied the code to new repo, fixed the plugin for nautobot v1.6 and fixed tests. The most of the codebase belongs to user dubcl and Felix Peters.
 
-# netbox-plugin-prometheus-sd
+# nautobot-plugin-prometheus-sd
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI](https://github.com/FlxPeters/netbox-plugin-prometheus-sd/workflows/CI/badge.svg?event=push)](https://github.com/FlxPeters/netbox-plugin-prometheus-sd/actions?query=workflow%3ACI)
 [![PyPI](https://img.shields.io/pypi/v/netbox-plugin-prometheus-sd)](https://pypi.org/project/netbox-plugin-prometheus-sd/)
 
-Provide Prometheus http_sd compatible API Endpoint with data from Netbox.
+Provide Prometheus http_sd compatible API Endpoint with data from Nautobot.
 
 HTTP SD is a new feature in Prometheus 2.28.0 that allows hosts to be found via a URL instead of just files.
-This plugin implements API endpoints in Netbox to make devices, IPs and virtual machines available to Prometheus.
+This plugin implements API endpoints in Nautobot to make devices, IPs and virtual machines available to Prometheus.
 
 ## Compatibility
 
-We aim to support the latest major versions of Netbox. For now we Support Netbox `2.11`, `3.0`, `3.1`, `3.2` and `3.3` including bugfix versions.
+For now we Support Nautobot `1.6`.
 All relevant target versions are tested in CI. Have a look at the Github Actions definition for the current build targets.
 
 ## Installation
 
-The plugin is available as a Python package in pypi and can be installed with pip
+Generic guide how to work with plugins can be found in Nautobot documentation: https://docs.nautobot.com/projects/core/en/v1.6.23/plugins/#installing-plugins
 
-    pip install netbox-plugin-prometheus-sd
-
-Enable the plugin in /opt/netbox/netbox/netbox/configuration.py:
-
-    PLUGINS = ['netbox_prometheus_sd']
-
-The plugin has not further plugin configuration at the moment.
+1. `pip install nautobot-plugin-prometheus-sd` or add `nautobot-plugin-prometheus-sd` in `local_requirements.txt` of Nautobot.
+2. In Nautobot configuration add:
+```
+PLUGINS = ['nautobot_prometheus_sd']
+```
 
 ## Usage
 
-The plugin only provides a new API endpoint on the Netbox API. There is no further action required after installation.
+The plugin only provides a new API endpoint on the Nautobot API. There is no further action required after installation.
 
 ### API
 
-The plugin reuses Netbox API view sets with new serializers for Prometheus.
+The plugin reuses Nautobot API view sets with new serializers for Prometheus.
 This means that all filters that can be used on the Netbox api can also be used to filter Prometheus targets.
 Paging is disabled because Prometheus does not support paged results.
 
-The plugin also reuses the Netbox authentication and permission model.
-Depending on the Netbox configuration, a token with valid object permissions must be passed to Netbox.
+The plugin also reuses the Nautobot authentication and permission model.
+Depending on the Nautobot configuration, a token with valid object permissions must be passed to Nautobot.
 
 ```
 GET        /api/plugins/prometheus-sd/devices/              Get a list of devices in a prometheus compatible format
@@ -49,42 +47,60 @@ GET        /api/plugins/prometheus-sd/ip-addresses/         Get a list of ip in 
 
 ### Example
 
-A working example on how to use this plugin with Prometheus is located at the `example` folder. Netbox content is created by using Netbox docker initializers.
+After Plugin is installed in Nautobot, the prometheus can start to retrieve endpoints for scrapping using the following scrape config:
+```
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: "prometheus"
 
-The demo data doesn't make sense, but they are good enough for demonstrating how to configure Prometheus and get demo data to Prometheus service discovery.
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
 
-Go to the `example` folder and run `docker-compose up`. Prometheus should get available on `http://localhost:9090`. Netbox content should then be available in the service discovery tab.
+    static_configs:
+      - targets: ["localhost:9090"]
+       # The label name is added as a label `label_name=<label_value>` to any timeseries scraped from this config.
+        labels:
+          app: "prometheus"
+  - job_name: "sql_exporter"
+    http_sd_configs:
+        - url: http://10.248.113.8:8080/api/plugins/prometheus-sd/virtual-machines?status=active&tag=psql
+          refresh_interval: 15s
+          authorization:
+            type: "Token"
+            credentials: "LcQ27bHXgrd0TKIfJ3LchLFsOkVkK38TWa6uYuuh"
+    relabel_configs:
+      # Labels which control scraping
+      - source_labels: [__meta_netbox_name]
+        target_label: instance
+      - source_labels: [__meta_netbox_primary_ip4]
+        regex: '(.+)'
+        target_label: __address__
+      - source_labels: [__address__]
+        target_label: __address__
+        replacement: '${1}:9399'
+      # Optional extra metadata labels
+      - target_label: 'exp_type'
+        replacement: 'pg'
+      - target_label: 'cluster_name'
+        replacement: 'crunchy'
+```
+In the config above, we are retrieving lists of lists of key value pairs. Every list of kv pairs is transformed using `relabel_configs` in order to provide `__address__` for the prometheus to scrape from. Additionally we are adding some static labels to the scraped targets. Excesive labels can be dropped.
 
 ## Development
 
-We use Poetry for dependency management and invoke as task runner.
-As Netbox plugins cannot be tested standalone, we need invoke to start all code embedded in Netbox Docker containers.
+Generic guide how to develope plugin can be found in Nautobot documentation: https://docs.nautobot.com/projects/core/en/v1.6.18/plugins/development/
 
-All code to run in docker is located under `development`.
-To start a virtual env managed by poetry run `poetry shell`.
-All following commands are started inside this environment.
+Currently, we do not have well automated way of plugin development environment.
 
-In order to run tests invoke the test steps
-
-``` bash
-# Execute all tests
-invoke tests
-
-# Execute unit tests only
-invoke unittest
-```
-
-Features should be covered by a unit test, but some times it's easier to develop on an running system.
-
-``` bash
-# Start a local Netbox with docker
-invoke start
-
-# Create an user named `admin`
-invoke create-user
-```
+1. Install nautobot according to: https://docs.nautobot.com/projects/core/en/stable/user-guide/administration/installation/nautobot/
+2. Clone this repository to the local machine.
+3. The plugin should be installed in the same venv where Nautobot is running. Usually `source /opt/nautobot/bin/activate` (but could differ if you installed venv in different location).
+4. Install plugin with `poetry install` (poetry should be installed already).
 
 Visit http://localhost:8000 and log in with the new user.
 You can now define Netbox entities and test around.
 
 API endpoints for testing can be found at http://localhost:8000/api/plugins/prometheus-sd/
+
+For tests the following command can be used:
+`nautobot-server test .`
