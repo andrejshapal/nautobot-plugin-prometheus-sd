@@ -1,11 +1,10 @@
-# See https://pre-commit.com for more information
-# See https://pre-commit.com/hooks.html for more hooks
 repos:
--   repo: https://github.com/andrejshapal/nautobot-plugin-prometheus-sd.git
-    rev: main
+  - repo: local
     hooks:
-      -   id: format
-          name: Format python
-          entry: poetry run invoke ruff --action format --fix
-          language: python
-          types: [text]
+      - id: poetry-invoke-ruff-fix
+        name: poetry run invoke ruff --action format --fix
+        entry: poetry run invoke ruff --action format --fix
+        language: system
+        # Optionally, restrict file types (e.g. Python only):
+        # files: \.py$
+        pass_filenames: false  # So it works on all files by default, not by filenames from pre-commit
