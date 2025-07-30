@@ -1,7 +1,10 @@
+"""Nautobot Prometheus Service Discovery Setup Script."""
 # -*- coding: utf-8 -*-
+import os
+from pathlib import Path
+
 from setuptools import setup
 
-from pathlib import Path
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
@@ -14,6 +17,7 @@ package_data = \
 {'': ['*']}
 
 def get_version():
+    """Get the version of the package."""
     return os.getenv('PACKAGE_VERSION', '1.6.1')
 
 setup_kwargs = {

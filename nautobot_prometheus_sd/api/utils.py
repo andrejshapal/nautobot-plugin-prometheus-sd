@@ -1,11 +1,15 @@
+"""Nautobot Prometheus Service Discovery API Utilities."""
 import json
+
 from netaddr import IPNetwork
 
+
 class LabelDict(dict):
-    """Wrapper around dict to render labels"""
+    """Wrapper around dict to render labels."""
 
     @staticmethod
     def promsafestr(labelval: str):
+        """Make label value safe for Prometheus."""
         # add any special chars here that may appear in custom label names
         special_chars = " -/\\!"
         for special_char in special_chars:
@@ -13,7 +17,7 @@ class LabelDict(dict):
         return labelval
 
     def get_labels(self):
-        """Prefix and replace invalid key chars for prometheus labels"""
+        """Prefix and replace invalid key chars for prometheus labels."""
         return {
             "__meta_netbox_" + str(self.promsafestr(key)): val
             for key, val in self.items()
@@ -21,13 +25,14 @@ class LabelDict(dict):
 
 
 def extract_tags(obj, labels):
+    """Extract tags and tag slugs."""
     if hasattr(obj, "tags") and obj.tags is not None and len(obj.tags.all()):
         labels["tags"] = ",".join([t.name for t in obj.tags.all()])
         labels["tag_slugs"] = ",".join([t.slug for t in obj.tags.all()])
 
 
 def extract_tenant(obj, labels: LabelDict):
-    """Extract tenant and group"""
+    """Extract tenant and group."""
     if hasattr(obj, "tenant") and obj.tenant:
         labels["tenant"] = obj.tenant.name
         labels["tenant_slug"] = obj.tenant.slug
@@ -38,6 +43,7 @@ def extract_tenant(obj, labels: LabelDict):
 
 
 def extract_cluster(obj, labels: LabelDict):
+    """Extract cluster and cluster group/type/site."""
     if hasattr(obj, "cluster") and obj.cluster is not None:
         labels["cluster"] = obj.cluster.name
         if obj.cluster.group:
@@ -50,6 +56,7 @@ def extract_cluster(obj, labels: LabelDict):
 
 
 def extract_primary_ip(obj, labels: LabelDict):
+    """Extract primary IP addresses."""
     if getattr(obj, "primary_ip", None) is not None:
         labels["primary_ip"] = str(IPNetwork(obj.primary_ip.address).ip)
 
@@ -60,12 +67,14 @@ def extract_primary_ip(obj, labels: LabelDict):
         labels["primary_ip6"] = str(IPNetwork(obj.primary_ip6.address).ip)
 
 def extracts_platform(obj, label: LabelDict):
+    """Extract platform and platform slug."""
     if hasattr(obj, "platform") and obj.platform is not None:
         label["platform"] = obj.platform.name
         label["platform_slug"] = obj.platform.slug
 
 
 def extract_services(obj, labels: LabelDict):
+    """Extract services."""
     if (
         hasattr(obj, "services")
         and obj.services is not None
@@ -75,6 +84,7 @@ def extract_services(obj, labels: LabelDict):
 
 
 def extract_contacts(obj, labels: LabelDict):
+    """Extract contacts."""
     if (
         hasattr(obj, "contacts")
         and obj.contacts is not None
@@ -90,6 +100,7 @@ def extract_contacts(obj, labels: LabelDict):
                 labels[f"contact_{contact.priority}_role"] = contact.role.name
 
 def extract_custom_fields(obj, labels: LabelDict):
+    """Extract custom fields."""
     if hasattr(obj, "custom_field_data") and obj.custom_field_data is not None:
         for key, value in obj.custom_field_data.items():
             # Render primitive value as string representation

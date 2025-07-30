@@ -1,12 +1,10 @@
 import json
 
-from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
-
-from rest_framework.test import APIClient
-from rest_framework import status
-
+from django.test import TestCase
 from nautobot.users.models import ObjectPermission, User
+from rest_framework import status
+from rest_framework.test import APIClient
 
 from . import utils
 

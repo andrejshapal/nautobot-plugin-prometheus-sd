@@ -1,11 +1,9 @@
+from nautobot.dcim.models import Device, DeviceRole, Platform
 from nautobot.dcim.models.devices import DeviceType, Manufacturer
 from nautobot.dcim.models.sites import Site
-from nautobot.dcim.models import Device, DeviceRole, Platform
-
+from nautobot.extras.models import Status
 from nautobot.ipam.models import IPAddress
 from nautobot.tenancy.models import Tenant, TenantGroup
-from nautobot.extras.models import Status
-
 from nautobot.virtualization.models import (
     Cluster,
     ClusterGroup,

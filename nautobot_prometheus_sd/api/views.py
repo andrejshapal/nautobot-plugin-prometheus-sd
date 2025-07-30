@@ -1,6 +1,7 @@
+"""Nautobot Prometheus Service Discovery API Views."""
+from nautobot.dcim.models.devices import Device
 from nautobot.ipam.models import IPAddress
 from nautobot.virtualization.models import VirtualMachine
-from nautobot.dcim.models.devices import Device
 
 # The base ViewSet has been renamed, this try-except helps to support
 # Both < 3.2 and the newer 3.2+ Versions:
@@ -14,19 +15,19 @@ except ImportError:
 # https://github.com/netbox-community/netbox/commit/1024782b9e0abb48f6da65f8248741227d53dbed#diff-d9224204dab475bbe888868c02235b8ef10f07c9201c45c90804d395dc161c40
 # pylint: disable=ungrouped-imports
 try:
-    from nautobot.ipam.filtersets import IPAddressFilterSet
     from nautobot.dcim.filtersets import DeviceFilterSet
+    from nautobot.ipam.filtersets import IPAddressFilterSet
     from nautobot.virtualization.filtersets import VirtualMachineFilterSet
 except ImportError:
-    from nautobot.ipam.filters import IPAddressFilterSet
     from nautobot.dcim.filters import DeviceFilterSet
+    from nautobot.ipam.filters import IPAddressFilterSet
     from nautobot.virtualization.filters import VirtualMachineFilterSet
 # pylint: enable=ungrouped-imports
 
 
 from .serializers import (
-    PrometheusIPAddressSerializer,
     PrometheusDeviceSerializer,
+    PrometheusIPAddressSerializer,
     PrometheusVirtualMachineSerializer,
 )
 
@@ -34,6 +35,7 @@ from .serializers import (
 class VirtualMachineViewSet(
     NetBoxModelViewSet
 ):  # pylint: disable=too-many-ancestors
+    """ViewSet for Virtual Machines to Prometheus target representation."""
     queryset = VirtualMachine.objects.prefetch_related(
         "cluster__site",
         "role",
@@ -50,6 +52,7 @@ class VirtualMachineViewSet(
 
 
 class DeviceViewSet(NetBoxModelViewSet):  # pylint: disable=too-many-ancestors
+    """ViewSet for Devices to Prometheus target representation."""
     queryset = Device.objects.prefetch_related(
         "device_type__manufacturer",
         "device_role",
@@ -70,6 +73,7 @@ class DeviceViewSet(NetBoxModelViewSet):  # pylint: disable=too-many-ancestors
 
 
 class IPAddressViewSet(NetBoxModelViewSet):  # pylint: disable=too-many-ancestors
+    """ViewSet for IP Addresses to Prometheus target representation."""
     queryset = IPAddress.objects.prefetch_related("tenant", "tags")
     serializer_class = PrometheusIPAddressSerializer
     filterset_class = IPAddressFilterSet

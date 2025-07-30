@@ -1,18 +1,19 @@
-from rest_framework import serializers
-from nautobot.virtualization.models import VirtualMachine
+"""Serialize Nautobot objects to Prometheus target representation."""
 from nautobot.dcim.models import Device
 from nautobot.ipam.models import IPAddress
-
+from nautobot.virtualization.models import VirtualMachine
 from netaddr import IPNetwork
+from rest_framework import serializers
 
-from .utils import LabelDict
 from . import utils
+from .utils import LabelDict
 
 
 class PrometheusDeviceSerializer(serializers.ModelSerializer):
-    """Serialize a device to Prometheus target representation"""
+    """Serialize a device to Prometheus target representation."""
 
     class Meta:
+        """Meta class for PrometheusDeviceSerializer."""
         model = Device
         fields = ["targets", "labels"]
 
@@ -20,9 +21,11 @@ class PrometheusDeviceSerializer(serializers.ModelSerializer):
     labels = serializers.SerializerMethodField()
 
     def get_targets(self, obj):
+        """Get the targets for the device."""
         return [obj.name]
 
     def get_labels(self, obj):
+        """Get the labels for the device."""
         labels = LabelDict(
             {"status": obj.status.name, "model": obj.__class__.__name__, "name": obj.name}
         )
@@ -52,9 +55,10 @@ class PrometheusDeviceSerializer(serializers.ModelSerializer):
 
 
 class PrometheusVirtualMachineSerializer(serializers.ModelSerializer):
-    """Serialize a virtual machine to Prometheus target representation"""
+    """Serialize a virtual machine to Prometheus target representation."""
 
     class Meta:
+        """Meta class for PrometheusVirtualMachineSerializer."""
         model = VirtualMachine
         fields = ["targets", "labels"]
 
@@ -62,9 +66,11 @@ class PrometheusVirtualMachineSerializer(serializers.ModelSerializer):
     labels = serializers.SerializerMethodField()
 
     def get_targets(self, obj):
+        """Get the targets for the virtual machine."""
         return [obj.name]
 
     def get_labels(self, obj):
+        """Get the labels for the virtual machine."""
         labels = LabelDict(
             {"status": obj.status.name, "model": obj.__class__.__name__, "name": obj.name}
         )
@@ -86,9 +92,10 @@ class PrometheusVirtualMachineSerializer(serializers.ModelSerializer):
 
 
 class PrometheusIPAddressSerializer(serializers.ModelSerializer):
-    """Serialize an IP address to Prometheus target representation"""
+    """Serialize an IP address to Prometheus target representation."""
 
     class Meta:
+        """Meta class for PrometheusIPAddressSerializer."""
         model = IPAddress
         fields = ["targets", "labels"]
 
@@ -96,16 +103,18 @@ class PrometheusIPAddressSerializer(serializers.ModelSerializer):
     labels = serializers.SerializerMethodField()
 
     def extract_ip(self, obj):
+        """Extract the IP address from the IPAddress object."""
         return str(IPNetwork(obj.address).ip)
 
     def get_targets(self, obj):
+        """Get the targets for the IP address."""
         if obj.dns_name:
             return [obj.dns_name]
 
         return [self.extract_ip(obj)]
 
     def get_labels(self, obj):
-        """Get IP address labels"""
+        """Get IP address labels."""
         labels = LabelDict(
             {
                 "status": obj.status.name,
