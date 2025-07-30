@@ -150,16 +150,16 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.9"]  # 3.12 stable is tested in unittest_report stage.
+        python-version: ["3.11"]  # 3.12 stable is tested in unittest_report stage.
         db-backend: ["postgresql"]
         nautobot-version: ["1.6.0"]
-        include:
-          - python-version: "3.11"
-            db-backend: "postgresql"
-            nautobot-version: "1.6.0"
-          # - python-version: "3.12"
-          #   db-backend: "mysql"
-          #   nautobot-version: "stable"
+        # include:
+        #   - python-version: "3.11"
+        #     db-backend: "postgresql"
+        #     nautobot-version: "1.6.0"
+        #   - python-version: "3.12"
+        #     db-backend: "mysql"
+        #     nautobot-version: "stable"
     runs-on: "ubuntu-22.04"
     env:
       INVOKE_NAUTOBOT_DEV_EXAMPLE_PYTHON_VER: "${{ matrix.python-version }}"
@@ -205,9 +205,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.12"]
+        python-version: ["3.11"]
         db-backend: ["postgresql"]
-        nautobot-version: ["stable"]
+        nautobot-version: ["1.6.0"]
     runs-on: "ubuntu-22.04"
     permissions:
       pull-requests: "write"
@@ -308,7 +308,7 @@ jobs:
         uses: "networktocode/gh-action-setup-poetry-environment@v6"
         with:
           poetry-version: "1.8.5"
-          python-version: "3.12"
+          python-version: "3.11"
           poetry-install-options: "--no-root"
       - name: "Set env"
         run: "echo RELEASE_VERSION=${GITHUB_REF:10} >> $GITHUB_ENV"
@@ -353,38 +353,3 @@ jobs:
         with:
           user: "__token__"
           password: "${{ secrets.PYPI_API_TOKEN }}"
-  slack-notify:
-    needs:
-      - "publish_gh"
-      - "publish_pypi"
-    runs-on: "ubuntu-22.04"
-    env:
-      SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
-      SLACK_MESSAGE: >-
-        *NOTIFICATION: NEW-RELEASE-PUBLISHED*\n
-        Repository: <${{ github.server_url }}/${{ github.repository }}|${{ github.repository }}>\n
-        Release: <${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.ref_name }}|${{ github.ref_name }}>\n
-        Published by: <${{ github.server_url }}/${{ github.actor }}|${{ github.actor }}>
-    steps:
-      - name: "Send a notification to Slack"
-        # ENVs cannot be used directly in job.if. This is a workaround to check
-        # if SLACK_WEBHOOK_URL is present.
-        if: "env.SLACK_WEBHOOK_URL != ''"
-        uses: "slackapi/slack-github-action@fcfb566f8b0aab22203f066d80ca1d7e4b5d05b3"  # v1.27.1
-        with:
-          payload: |
-            {
-              "text": "${{ env.SLACK_MESSAGE }}",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "${{ env.SLACK_MESSAGE }}"
-                  }
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
-          SLACK_WEBHOOK_TYPE: "INCOMING_WEBHOOK"
