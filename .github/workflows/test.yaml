@@ -3,7 +3,7 @@ name: "CI - Integration Branch"
 on:  # yamllint disable
   pull_request:
     branches:
-      - 'v*.*.*'
+      - 'release/v*.*.*'
 jobs:
   tests-nautobot-prometheus-sd:
     name: "Unit tests (Nautobot Prometheus SD and Python 3.12)"
