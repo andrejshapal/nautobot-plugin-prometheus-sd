@@ -1,8 +1,11 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
-hooks:
-  -   id: format
-      name: Format python
-      entry: poetry run invoke ruff --action format --fix
-      language: python
-      types: [text]
+repos:
+-   repo: https://github.com/andrejshapal/nautobot-plugin-prometheus-sd.git
+    rev: v3.2.0
+    hooks:
+      -   id: format
+          name: Format python
+          entry: poetry run invoke ruff --action format --fix
+          language: python
+          types: [text]
