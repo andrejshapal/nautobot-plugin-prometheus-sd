@@ -1,5 +1,5 @@
 ---
-name: "CI - Integration Branch"
+name: "Testing Branch"
 on:  # yamllint disable
   pull_request:
     branches:
