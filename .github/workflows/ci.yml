@@ -1,6 +1,6 @@
 ---
 name: "CI"
-concurrency:  # Cancel any existing runs of this workflow for this same PR
+concurrency: # Cancel any existing runs of this workflow for this same PR
   group: "${{ github.workflow }}-${{ github.ref }}"
   cancel-in-progress: true
 on: # yamllint disable-line rule:truthy rule:comments
@@ -104,8 +104,8 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.11"]
-        nautobot-version: ["1.6.0"]
+        python-version: ["3.12"]
+        nautobot-version: ["stable"]
     env:
       INVOKE_NAUTOBOT_DEV_EXAMPLE_PYTHON_VER: "${{ matrix.python-version }}"
       INVOKE_NAUTOBOT_DEV_EXAMPLE_NAUTOBOT_VER: "${{ matrix.nautobot-version }}"
@@ -122,9 +122,9 @@ jobs:
         run: "poetry run invoke lock --constrain-nautobot-ver --constrain-python-ver"
       - name: "Set up Docker Buildx"
         id: "buildx"
-        uses: "docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2"  # v3.10.0
+        uses: "docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2" # v3.10.0
       - name: "Build"
-        uses: "docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25"  # v5.4.0
+        uses: "docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25" # v5.4.0
         with:
           builder: "${{ steps.buildx.outputs.name }}"
           context: "./"
@@ -150,16 +150,16 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.11"]  # 3.12 stable is tested in unittest_report stage.
+        python-version: ["3.9"] # 3.12 stable is tested in unittest_report stage.
         db-backend: ["postgresql"]
-        nautobot-version: ["1.6.0"]
-        # include:
-        #   - python-version: "3.11"
-        #     db-backend: "postgresql"
-        #     nautobot-version: "1.6.0"
-        #   - python-version: "3.12"
-        #     db-backend: "mysql"
-        #     nautobot-version: "stable"
+        nautobot-version: ["stable"]
+        include:
+          - python-version: "3.11"
+            db-backend: "postgresql"
+            nautobot-version: "stable"
+          - python-version: "3.12"
+            db-backend: "mysql"
+            nautobot-version: "stable"
     runs-on: "ubuntu-22.04"
     env:
       INVOKE_NAUTOBOT_DEV_EXAMPLE_PYTHON_VER: "${{ matrix.python-version }}"
@@ -177,9 +177,9 @@ jobs:
         run: "poetry run invoke lock --constrain-nautobot-ver --constrain-python-ver"
       - name: "Set up Docker Buildx"
         id: "buildx"
-        uses: "docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2"  # v3.10.0
+        uses: "docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2" # v3.10.0
       - name: "Build"
-        uses: "docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25"  # v5.4.0
+        uses: "docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25" # v5.4.0
         with:
           builder: "${{ steps.buildx.outputs.name }}"
           context: "./"
@@ -205,9 +205,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: ["3.11"]
+        python-version: ["3.12"]
         db-backend: ["postgresql"]
-        nautobot-version: ["1.6.0"]
+        nautobot-version: ["stable"]
     runs-on: "ubuntu-22.04"
     permissions:
       pull-requests: "write"
@@ -228,9 +228,9 @@ jobs:
         run: "poetry run invoke lock --constrain-nautobot-ver --constrain-python-ver"
       - name: "Set up Docker Buildx"
         id: "buildx"
-        uses: "docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2"  # v3.10.0
+        uses: "docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2" # v3.10.0
       - name: "Build"
-        uses: "docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25"  # v5.4.0
+        uses: "docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25" # v5.4.0
         with:
           builder: "${{ steps.buildx.outputs.name }}"
           context: "./"
@@ -256,7 +256,7 @@ jobs:
           contains(fromJson('["develop","ltm-1.6"]'), github.base_ref) &&
           (github.head_ref != 'main') && (!startsWith(github.head_ref, 'release'))
         id: "coverage_comment"
-        uses: "py-cov-action/python-coverage-comment-action@d1ff8fbb5ff80feedb3faa0f6d7b424f417ad0e1"  # v3.30
+        uses: "py-cov-action/python-coverage-comment-action@d1ff8fbb5ff80feedb3faa0f6d7b424f417ad0e1" # v3.30
         with:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MINIMUM_GREEN: 90
@@ -308,7 +308,7 @@ jobs:
         uses: "networktocode/gh-action-setup-poetry-environment@v6"
         with:
           poetry-version: "1.8.5"
-          python-version: "3.11"
+          python-version: "3.12"
           poetry-install-options: "--no-root"
       - name: "Set env"
         run: "echo RELEASE_VERSION=${GITHUB_REF:10} >> $GITHUB_ENV"
@@ -349,7 +349,7 @@ jobs:
       - name: "Run Poetry Build"
         run: "poetry build"
       - name: "Push to PyPI"
-        uses: "pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc"  # v1.12.4
+        uses: "pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc" # v1.12.4
         with:
           user: "__token__"
           password: "${{ secrets.PYPI_API_TOKEN }}"

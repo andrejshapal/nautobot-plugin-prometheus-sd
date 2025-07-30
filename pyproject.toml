@@ -14,9 +14,9 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.12"
+python = ">=3.9,<3.13"
 # Used for local development
-nautobot = "^1.6.0"
+nautobot = "^2.1.0"
 pre-commit = "^4.2.0"
 
 [tool.poetry.group.dev.dependencies]
