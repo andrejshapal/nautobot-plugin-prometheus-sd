@@ -1,9 +1,13 @@
 ---
 name: "Testing Branch"
 on:  # yamllint disable
-  pull_request:
+  push:
     branches:
-      - 'release/v*.*.*'
+      - "main"
+      - "develop"
+    tags:
+      - "v*"
+  pull_request: ~
 jobs:
   tests-nautobot-prometheus-sd:
     name: "Unit tests (Nautobot Prometheus SD and Python 3.12)"
