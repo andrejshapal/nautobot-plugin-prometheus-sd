@@ -3,8 +3,8 @@ I have found the following plugin: https://pypi.org/project/nautobot-plugin-prom
 # nautobot-plugin-prometheus-sd
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![CI](https://github.com/FlxPeters/netbox-plugin-prometheus-sd/workflows/CI/badge.svg?event=push)](https://github.com/FlxPeters/netbox-plugin-prometheus-sd/actions?query=workflow%3ACI)
-[![PyPI](https://img.shields.io/pypi/v/netbox-plugin-prometheus-sd)](https://pypi.org/project/netbox-plugin-prometheus-sd/)
+[![CI](https://github.com/andrejshapal/nautobot-plugin-prometheus-sd/actions/workflows/ci.yml/badge.svg)](https://github.com/andrejshapal/nautobot-plugin-prometheus-sd/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/nautobot-prometheus-sd)](https://pypi.org/project/nautobot-prometheus-sd/)
 
 Provide Prometheus http_sd compatible API Endpoint with data from Nautobot.
 
