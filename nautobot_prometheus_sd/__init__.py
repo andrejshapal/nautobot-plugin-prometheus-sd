@@ -5,6 +5,7 @@ from nautobot.extras.plugins import PluginConfig
 
 class PrometheusSD(PluginConfig):
     """Plugin configuration for Nautobot Prometheus SD."""
+
     name = "nautobot_prometheus_sd"
     verbose_name = "Nautobox Prometheus SD"
     description = (

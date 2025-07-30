@@ -1,4 +1,5 @@
 """Serialize Nautobot objects to Prometheus target representation."""
+
 from nautobot.dcim.models import Device
 from nautobot.ipam.models import IPAddress
 from nautobot.virtualization.models import VirtualMachine
@@ -14,6 +15,7 @@ class PrometheusDeviceSerializer(serializers.ModelSerializer):
 
     class Meta:
         """Meta class for PrometheusDeviceSerializer."""
+
         model = Device
         fields = ["targets", "labels"]
 
@@ -26,9 +28,7 @@ class PrometheusDeviceSerializer(serializers.ModelSerializer):
 
     def get_labels(self, obj):
         """Get the labels for the device."""
-        labels = LabelDict(
-            {"status": obj.status.name, "model": obj.__class__.__name__, "name": obj.name}
-        )
+        labels = LabelDict({"status": obj.status.name, "model": obj.__class__.__name__, "name": obj.name})
 
         utils.extract_primary_ip(obj, labels)
         utils.extracts_platform(obj, labels)
@@ -59,6 +59,7 @@ class PrometheusVirtualMachineSerializer(serializers.ModelSerializer):
 
     class Meta:
         """Meta class for PrometheusVirtualMachineSerializer."""
+
         model = VirtualMachine
         fields = ["targets", "labels"]
 
@@ -71,9 +72,7 @@ class PrometheusVirtualMachineSerializer(serializers.ModelSerializer):
 
     def get_labels(self, obj):
         """Get the labels for the virtual machine."""
-        labels = LabelDict(
-            {"status": obj.status.name, "model": obj.__class__.__name__, "name": obj.name}
-        )
+        labels = LabelDict({"status": obj.status.name, "model": obj.__class__.__name__, "name": obj.name})
 
         utils.extract_primary_ip(obj, labels)
         utils.extracts_platform(obj, labels)
@@ -96,6 +95,7 @@ class PrometheusIPAddressSerializer(serializers.ModelSerializer):
 
     class Meta:
         """Meta class for PrometheusIPAddressSerializer."""
+
         model = IPAddress
         fields = ["targets", "labels"]
 

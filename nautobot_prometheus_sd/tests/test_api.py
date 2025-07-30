@@ -13,7 +13,6 @@ class ApiEndpointTests(TestCase):
     """Test cases for ensuring API endpoint is working properly."""
 
     def setUp(self):
-
         self.client = APIClient()
 
         # Create test user and view permissions

@@ -1,4 +1,5 @@
 """Nautobot Prometheus Service Discovery API Views."""
+
 from nautobot.dcim.models.devices import Device
 from nautobot.ipam.models import IPAddress
 from nautobot.virtualization.models import VirtualMachine
@@ -32,10 +33,9 @@ from .serializers import (
 )
 
 
-class VirtualMachineViewSet(
-    NetBoxModelViewSet
-):  # pylint: disable=too-many-ancestors
+class VirtualMachineViewSet(NetBoxModelViewSet):  # pylint: disable=too-many-ancestors
     """ViewSet for Virtual Machines to Prometheus target representation."""
+
     queryset = VirtualMachine.objects.prefetch_related(
         "cluster__site",
         "role",
@@ -53,6 +53,7 @@ class VirtualMachineViewSet(
 
 class DeviceViewSet(NetBoxModelViewSet):  # pylint: disable=too-many-ancestors
     """ViewSet for Devices to Prometheus target representation."""
+
     queryset = Device.objects.prefetch_related(
         "device_type__manufacturer",
         "device_role",
@@ -74,6 +75,7 @@ class DeviceViewSet(NetBoxModelViewSet):  # pylint: disable=too-many-ancestors
 
 class IPAddressViewSet(NetBoxModelViewSet):  # pylint: disable=too-many-ancestors
     """ViewSet for IP Addresses to Prometheus target representation."""
+
     queryset = IPAddress.objects.prefetch_related("tenant", "tags")
     serializer_class = PrometheusIPAddressSerializer
     filterset_class = IPAddressFilterSet

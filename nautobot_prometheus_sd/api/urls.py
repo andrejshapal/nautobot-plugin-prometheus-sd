@@ -1,4 +1,5 @@
 """Nautobot Prometheus Service Discovery API URLs."""
+
 from rest_framework import routers
 
 from .views import DeviceViewSet, IPAddressViewSet, VirtualMachineViewSet
