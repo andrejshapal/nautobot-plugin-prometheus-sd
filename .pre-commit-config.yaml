@@ -1,7 +1,7 @@
 repos:
   - repo: local
     hooks:
-      - id: poetry-invoke-ruff-fix
+      - id: format
         name: poetry run invoke ruff --action format --fix
         entry: poetry run invoke ruff --action format --fix
         language: system
