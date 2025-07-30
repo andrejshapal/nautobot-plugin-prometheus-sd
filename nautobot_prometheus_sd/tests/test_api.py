@@ -1,3 +1,4 @@
+"""Tests for the Nautobot Prometheus Service Discovery plugin API endpoints."""
 import json
 
 from django.contrib.contenttypes.models import ContentType

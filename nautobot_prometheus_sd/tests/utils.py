@@ -1,3 +1,4 @@
+"""Utility functions for Nautobot Prometheus SD tests."""
 from nautobot.dcim.models import Device, DeviceRole, Platform
 from nautobot.dcim.models.devices import DeviceType, Manufacturer
 from nautobot.dcim.models.sites import Site
@@ -13,6 +14,7 @@ from nautobot.virtualization.models import (
 
 
 def build_cluster():
+    """Build a cluster object for testing purposes."""
     return Cluster.objects.get_or_create(
         name="DC1",
         group=ClusterGroup.objects.get_or_create(name="VMware")[0],
@@ -22,6 +24,7 @@ def build_cluster():
 
 
 def build_tenant():
+    """Build a tenant object for testing purposes."""
     return Tenant.objects.get_or_create(name="Acme Corp.", slug="acme")[0]
 
 
@@ -34,7 +37,7 @@ def build_status():
 
 
 def build_custom_fields():
-    """Build custom field definition with different kinds of custom values"""
+    """Build custom field definition with different kinds of custom values."""
     return {
         "contact": [{"id": 1, "url": "http://localhost:8000/api/tenancy/contacts/1/", "display": "Foo", "name": "Foo"}],
         "json": {"foo": ["bar", "baz"]},
@@ -47,14 +50,16 @@ def build_custom_fields():
 
 
 def build_minimal_vm(name):
+    """Build a minimal virtual machine object for testing purposes."""
     return VirtualMachine.objects.get_or_create(name=name, cluster=build_cluster(), status=build_status())[0]
 
 
 def build_vm_full(name):
-    vm = build_minimal_vm(name=name)
+    """Build a full virtual machine object for testing purposes."""
+    vm = build_minimal_vm(name=name) # pylint: disable=invalid-name
     vm.tenant = build_tenant()  # type: ignore
     vm.status = build_status()
-    vm._custom_field_data = build_custom_fields()  # type: ignore
+    vm._custom_field_data = build_custom_fields()  # type: ignore # pylint: disable=protected-access
     vm.role = DeviceRole.objects.get_or_create(name="VM", slug="vm", vm_role=True)[0]  # type: ignore
     vm.platform = Platform.objects.get_or_create(  # type: ignore
         name="Ubuntu 20.04", slug="ubuntu-20.04"
@@ -68,6 +73,7 @@ def build_vm_full(name):
 
 
 def build_minimal_device(name):
+    """Build a minimal device object for testing purposes."""
     return Device.objects.get_or_create(
         name=name,
         status=build_status(),
@@ -82,10 +88,11 @@ def build_minimal_device(name):
 
 
 def build_device_full(name):
+    """Build a full device object for testing purposes."""
     device = build_minimal_device(name)
     device.tenant = build_tenant()  # type: ignore
     device.status = build_status()
-    device._custom_field_data = build_custom_fields()  # type: ignore
+    device._custom_field_data = build_custom_fields()  # type: ignore # pylint: disable=protected-access
     device.platform = Platform.objects.get_or_create(name="Junos", slug="junos")[0]  # type: ignore
     device.primary_ip4 = IPAddress.objects.get_or_create(address="192.168.0.1/24")[0]  # type: ignore
     device.primary_ip6 = IPAddress.objects.get_or_create(address="2001:db8:1701::2/64")[  # type: ignore
@@ -97,13 +104,15 @@ def build_device_full(name):
 
 
 def build_minimal_ip(address):
+    """Build a minimal IP address object for testing purposes."""
     return IPAddress.objects.get_or_create(address=address, status=build_status())[0]
 
 
 def build_full_ip(address, dns_name=""):
-    ip = build_minimal_ip(address=address)
+    """Build a full IP address object for testing purposes."""
+    ip = build_minimal_ip(address=address) # pylint: disable=invalid-name
     ip.status = build_status()
-    ip._custom_field_data = build_custom_fields()  # type: ignore
+    ip._custom_field_data = build_custom_fields()  # type: ignore # pylint: disable=protected-access
     ip.tenant = Tenant.objects.get_or_create(  # type: ignore
         name="Starfleet",
         slug="starfleet",
