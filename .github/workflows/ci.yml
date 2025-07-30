@@ -152,7 +152,7 @@ jobs:
       matrix:
         python-version: ["3.9"]  # 3.12 stable is tested in unittest_report stage.
         db-backend: ["postgresql"]
-        nautobot-version: "1.6.0"
+        nautobot-version: ["1.6.0"]
         include:
           - python-version: "3.11"
             db-backend: "postgresql"
