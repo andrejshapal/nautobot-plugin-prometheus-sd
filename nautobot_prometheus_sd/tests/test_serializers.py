@@ -24,7 +24,7 @@ class PrometheusVirtualMachineSerializerTests(TestCase):
             {"__meta_nautobot_cluster_group": "VMware"},
             {"__meta_nautobot_cluster_type": "On Prem"},
         ]:
-            for k, v in expected.items(): # pylint: disable=invalid-name
+            for k, v in expected.items():  # pylint: disable=invalid-name
                 self.assertEqual(data["labels"].get(k), v)
 
     def test_vm_full_to_target(self):
@@ -51,7 +51,7 @@ class PrometheusVirtualMachineSerializerTests(TestCase):
             },
             {"__meta_nautobot_custom_field_text_long": "This is\r\na  pretty\r\nlog\r\nText"},
         ]:
-            for k, v in expected.items(): # pylint: disable=invalid-name
+            for k, v in expected.items():  # pylint: disable=invalid-name
                 self.assertEqual(data["labels"].get(k), v)
 
 
@@ -68,7 +68,7 @@ class PrometheusDeviceSerializerTests(TestCase):
             {"__meta_nautobot_device_type": "SRX"},
             {"__meta_nautobot_location": "Site"},
         ]:
-            for k, v in expected.items(): # pylint: disable=invalid-name
+            for k, v in expected.items():  # pylint: disable=invalid-name
                 self.assertEqual(data["labels"].get(k), v)
 
     def test_device_full_to_target(self):
@@ -84,7 +84,7 @@ class PrometheusDeviceSerializerTests(TestCase):
             {"__meta_nautobot_tenant": "Acme Corp."},
             {"__meta_nautobot_custom_field_simple": "Foobar 123"},
         ]:
-            for k, v in expected.items(): # pylint: disable=invalid-name
+            for k, v in expected.items():  # pylint: disable=invalid-name
                 self.assertEqual(data["labels"].get(k), v)
 
 
@@ -99,7 +99,7 @@ class PrometheusIPAddressSerializerTests(TestCase):
             {"__meta_nautobot_status": "Active"},
             {"__meta_nautobot_model": "IPAddress"},
         ]:
-            for k, v in expected.items(): # pylint: disable=invalid-name
+            for k, v in expected.items():  # pylint: disable=invalid-name
                 self.assertEqual(data["labels"].get(k), v)
 
     def test_ip_full_to_target(self):
@@ -120,5 +120,5 @@ class PrometheusIPAddressSerializerTests(TestCase):
             {"__meta_nautobot_tenant_group": "Federation"},
             {"__meta_nautobot_custom_field_simple": "Foobar 123"},
         ]:
-            for k, v in expected.items(): # pylint: disable=invalid-name
+            for k, v in expected.items():  # pylint: disable=invalid-name
                 self.assertEqual(data["labels"].get(k), v)
