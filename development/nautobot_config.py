@@ -21,9 +21,6 @@ if DEBUG and not _TESTING:
     if "debug_toolbar.middleware.DebugToolbarMiddleware" not in MIDDLEWARE:  # noqa: F405
         MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")  # noqa: F405
 
-print("INSTALLED_APPS:", INSTALLED_APPS)  # noqa: F405
-print("DEBUG", DEBUG)
-print("TESTING", _TESTING)
 #
 # Misc. settings
 #

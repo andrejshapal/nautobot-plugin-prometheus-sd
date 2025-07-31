@@ -107,8 +107,8 @@ jobs:
         python-version: ["3.11"]
         nautobot-version: ["2.4.0"]
     env:
-      INVOKE_NAUTOBOT_DEV_EXAMPLE_PYTHON_VER: "${{ matrix.python-version }}"
-      INVOKE_NAUTOBOT_DEV_EXAMPLE_NAUTOBOT_VER: "${{ matrix.nautobot-version }}"
+      INVOKE_NAUTOBOT_PROMETHEUS_SD_PYTHON_VER: "${{ matrix.python-version }}"
+      INVOKE_NAUTOBOT_PROMETHEUS_SD_NAUTOBOT_VER: "${{ matrix.nautobot-version }}"
     steps:
       - name: "Check out repository code"
         uses: "actions/checkout@v4"
@@ -162,8 +162,8 @@ jobs:
             nautobot-version: "stable"
     runs-on: "ubuntu-22.04"
     env:
-      INVOKE_NAUTOBOT_DEV_EXAMPLE_PYTHON_VER: "${{ matrix.python-version }}"
-      INVOKE_NAUTOBOT_DEV_EXAMPLE_NAUTOBOT_VER: "${{ matrix.nautobot-version }}"
+      INVOKE_NAUTOBOT_PROMETHEUS_SD_PYTHON_VER: "${{ matrix.python-version }}"
+      INVOKE_NAUTOBOT_PROMETHEUS_SD_NAUTOBOT_VER: "${{ matrix.nautobot-version }}"
     steps:
       - name: "Check out repository code"
         uses: "actions/checkout@v4"
