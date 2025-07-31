@@ -16,13 +16,13 @@ package_data = {"": ["*"]}
 
 def get_version():
     """Get the version of the package."""
-    return os.getenv("PACKAGE_VERSION", "1.6.1")
+    return os.getenv("PACKAGE_VERSION", "2.4.0")
 
 
 setup_kwargs = {
     "name": "nautobot-plugin-prometheus-sd",
     "version": get_version(),
-    "description": "A Nautobot plugin to provide Netbox entires to Prometheus HTTP service discovery",
+    "description": "A Nautobot plugin to provide Nautobot entires to Prometheus HTTP service discovery",
     "long_description": long_description,
     "long_description_content_type": "text/markdown",
     "author": "Felix Peters",

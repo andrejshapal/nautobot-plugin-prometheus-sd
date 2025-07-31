@@ -11,7 +11,7 @@ class PrometheusSD(NautobotAppConfig):
     description = (
         "Provide Prometheus url_sd compatible API Endpoint with data from netbox, based on nautobot_prometheus_sd"
     )
-    version = "2.4.11"
+    version = "2.4.0"
     author = "Felix Peters"
     author_email = "mail@felixpeters.de"
     base_url = "prometheus-sd"

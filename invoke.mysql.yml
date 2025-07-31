@@ -1,7 +1,7 @@
 ---
 nautobot_dev_example:
   project_name: "nautobot-dev-example"
-  nautobot_ver: "2.4.11"
+  nautobot_ver: "2.4.0"
   local: false
   python_ver: "3.11"
   compose_dir: "development"
