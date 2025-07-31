@@ -45,7 +45,7 @@ def build_address(address):
         _ = Prefix.objects.get_or_create(prefix=address, status=build_status(), namespace=namespace())[0]
     except IntegrityError:
         pass
-    return IPAddress.objects.get_or_create(address=address, namespace=namespace(), status=build_status())[0]  # type: ignore
+    return IPAddress.objects.get_or_create(address=address, status=build_status())[0]  # type: ignore
 
 
 def build_tenant():
