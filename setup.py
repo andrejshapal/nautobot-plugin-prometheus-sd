@@ -1,9 +1,9 @@
 """Nautobot Prometheus Service Discovery Setup Script."""
 
 # -*- coding: utf-8 -*-
-import os
 from pathlib import Path
 
+import toml
 from setuptools import setup
 
 this_directory = Path(__file__).parent
@@ -15,8 +15,9 @@ package_data = {"": ["*"]}
 
 
 def get_version():
-    """Get the version of the package."""
-    return os.getenv("PACKAGE_VERSION", "2.3.0")
+    """Get the version from pyproject.toml."""
+    pyproject = toml.load("pyproject.toml")
+    return pyproject["tool"]["poetry"]["version"]
 
 
 setup_kwargs = {
