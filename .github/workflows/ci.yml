@@ -213,8 +213,8 @@ jobs:
       pull-requests: "write"
       contents: "write"
     env:
-      INVOKE_NAUTOBOT_DEV_EXAMPLE_PYTHON_VER: "${{ matrix.python-version }}"
-      INVOKE_NAUTOBOT_DEV_EXAMPLE_NAUTOBOT_VER: "${{ matrix.nautobot-version }}"
+      INVOKE_NAUTOBOT_PROMETHEUS_SD_PYTHON_VER: "${{ matrix.python-version }}"
+      INVOKE_NAUTOBOT_PROMETHEUS_SD_NAUTOBOT_VER: "${{ matrix.nautobot-version }}"
     steps:
       - name: "Check out repository code"
         uses: "actions/checkout@v4"
