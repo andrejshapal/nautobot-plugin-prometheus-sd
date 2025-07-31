@@ -13,8 +13,8 @@ This plugin implements API endpoints in Nautobot to make devices, IPs and virtua
 
 ## Compatibility
 
-For now we Support Nautobot `1.6`.
 All relevant target versions are tested in CI. Have a look at the Github Actions definition for the current build targets.
+We can't ensure plugin will work with all versions of nautobot. But 1.*.* version should be fine for nautobot <2.*.*, and 2.*.* should be compatible with respective nautobot 2.*.* versions.
 
 ## Installation
 

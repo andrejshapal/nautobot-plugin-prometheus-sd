@@ -1,5 +1,6 @@
 """Utility functions for Nautobot Prometheus SD tests."""
 
+from django.db import IntegrityError
 from nautobot.dcim.models import Device, Location, LocationType, Platform
 from nautobot.dcim.models.devices import DeviceType, Manufacturer
 from nautobot.extras.models import Role, Status
@@ -42,7 +43,7 @@ def build_address(address):
     """Build an IP address object for testing purposes."""
     try:
         _ = Prefix.objects.get_or_create(prefix=address, status=build_status(), namespace=namespace())[0]
-    except Exception:
+    except IntegrityError:
         pass
     return IPAddress.objects.get_or_create(address=address, namespace=namespace(), status=build_status())[0]  # type: ignore
 

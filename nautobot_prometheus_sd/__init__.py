@@ -1,9 +1,9 @@
 """Nautobot plugin configuration for Prometheus Service Discovery (SD)."""
 
-from nautobot.extras.plugins import PluginConfig
+from nautobot.extras.plugins import NautobotAppConfig
 
 
-class PrometheusSD(PluginConfig):
+class PrometheusSD(NautobotAppConfig):
     """Plugin configuration for Nautobot Prometheus SD."""
 
     name = "nautobot_prometheus_sd"
