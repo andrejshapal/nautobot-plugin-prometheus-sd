@@ -23,7 +23,7 @@ services:
       - "8001:8080"
     volumes:
       - "../:/source"
-    image: "nautobot-prometheus-sd/nautobot:${NAUTOBOT_VER}-py${PYTHON_VER}"
+    image: "njuhaandrej/nautobot-prometheus-sd:${NAUTOBOT_VER}-py${PYTHON_VER}"
     healthcheck:
       disable: true
     tty: true

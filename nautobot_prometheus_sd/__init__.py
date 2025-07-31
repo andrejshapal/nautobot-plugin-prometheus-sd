@@ -7,11 +7,11 @@ class PrometheusSD(NautobotAppConfig):
     """Plugin configuration for Nautobot Prometheus SD."""
 
     name = "nautobot_prometheus_sd"
-    verbose_name = "Nautobox Prometheus SD"
+    verbose_name = "Nautobot Prometheus SD"
     description = (
         "Provide Prometheus url_sd compatible API Endpoint with data from netbox, based on nautobot_prometheus_sd"
     )
-    version = "0.4"
+    version = "2.4.11"
     author = "Felix Peters"
     author_email = "mail@felixpeters.de"
     base_url = "prometheus-sd"
