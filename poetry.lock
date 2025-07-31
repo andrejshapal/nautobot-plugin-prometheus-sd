@@ -840,17 +840,17 @@ Django = "*"
 
 [[package]]
 name = "django-debug-toolbar"
-version = "6.0.0"
+version = "4.3.0"
 description = "A configurable set of panels that display various debug information about the current request/response."
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.8"
 files = [
-    {file = "django_debug_toolbar-6.0.0-py3-none-any.whl", hash = "sha256:0cf2cac5c307b77d6e143c914e5c6592df53ffe34642d93929e5ef095ae56841"},
-    {file = "django_debug_toolbar-6.0.0.tar.gz", hash = "sha256:6eb9fa6f4a5884bf04004700ffb5a44043f1fff38784447fc52c1633448c8c14"},
+    {file = "django_debug_toolbar-4.3.0-py3-none-any.whl", hash = "sha256:e09b7dcb8417b743234dfc57c95a7c1d1d87a88844abd13b4c5387f807b31bf6"},
+    {file = "django_debug_toolbar-4.3.0.tar.gz", hash = "sha256:0b0dddee5ea29b9cb678593bc0d7a6d76b21d7799cb68e091a2148341a80f3c4"},
 ]
 
 [package.dependencies]
-django = ">=4.2.9"
+django = ">=3.2.4"
 sqlparse = ">=0.2"
 
 [[package]]
@@ -3957,4 +3957,4 @@ all = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.13"
-content-hash = "3a02bc334269c6971b5280b7f095ec406ea806bda3ead59b792cef68109876d6"
+content-hash = "7a7dcf2c655b564a78cfc31dc69045568970199b50557c54a7e396a8e987556b"
