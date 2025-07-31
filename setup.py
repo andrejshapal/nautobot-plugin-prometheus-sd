@@ -16,7 +16,7 @@ package_data = {"": ["*"]}
 
 def get_version():
     """Get the version of the package."""
-    return os.getenv("PACKAGE_VERSION", "2.4.0")
+    return os.getenv("PACKAGE_VERSION", "2.3.0")
 
 
 setup_kwargs = {
