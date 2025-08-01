@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nautobot-prometheus-sd"
-version = "2.3.0"
+version = "2.4.13"
 description = "A Nautobot plugin to provide Netbox entires to Prometheus HTTP service discovery"
 authors = ["Felix Peters <felix.peters@breuninger.de>"]
 license = "MIT"
