@@ -52,7 +52,7 @@ namespace = Collection("nautobot_prometheus_sd")
 namespace.configure(
     {
         "nautobot_prometheus_sd": {
-            "nautobot_ver": "2.4.0",
+            "nautobot_ver": "2.4.13",
             "project_name": "nautobot-prometheus-sd",
             "python_ver": "3.11",
             "local": False,

@@ -1,12 +1,13 @@
 """Nautobot Prometheus Service Discovery API Views."""
 
-from nautobot.dcim.filters import DeviceFilterSet
 from nautobot.dcim.models.devices import Device
 from nautobot.extras.api.views import CustomFieldModelViewSet as NautobotModelViewSet
 from nautobot.ipam.filters import IPAddressFilterSet
 from nautobot.ipam.models import IPAddress
 from nautobot.virtualization.filters import VirtualMachineFilterSet
 from nautobot.virtualization.models import VirtualMachine
+
+from nautobot_prometheus_sd.filters import DeviceFilterSetCustom
 
 from .serializers import (
     PrometheusDeviceSerializer,
@@ -50,7 +51,7 @@ class DeviceViewSet(NautobotModelViewSet):  # pylint: disable=too-many-ancestors
         "primary_ip6__nat_outside",
         "tags",
     )
-    filterset_class = DeviceFilterSet
+    filterset_class = DeviceFilterSetCustom
     serializer_class = PrometheusDeviceSerializer
     pagination_class = None
 
